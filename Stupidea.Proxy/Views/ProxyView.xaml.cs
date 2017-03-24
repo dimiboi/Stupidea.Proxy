@@ -2,6 +2,7 @@
 using Stupidea.Proxy.ViewModels;
 using System;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -40,6 +41,18 @@ namespace Stupidea.Proxy.Views
                     .BindCommand(ViewModel,
                         vm => vm.StopCommand,
                         v => v.StopButton)
+                    .DisposeWith(disposables);
+
+                this
+                    .WhenAnyValue(v => v.ViewModel.IsStarted)
+                    .Select(v => v ? Visibility.Visible : Visibility.Hidden)
+                    .BindTo(this, v => v.GoofySvg.Visibility)
+                    .DisposeWith(disposables);
+
+                this
+                    .WhenAnyValue(v => v.ViewModel.IsStarted)
+                    .Select(v => v ? Visibility.Hidden : Visibility.Visible)
+                    .BindTo(this, v => v.HappySvg.Visibility)
                     .DisposeWith(disposables);
             });
         }

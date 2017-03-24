@@ -6,8 +6,8 @@
                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                      xmlns:rx="clr-namespace:ReactiveUI;assembly=ReactiveUI"
                      Title="Stupidea Proxy"
-                     Width="525"
-                     Height="350"
+                     ResizeMode="NoResize"
+                     SizeToContent="WidthAndHeight"
                      mc:Ignorable="d">
     <rx:RoutedViewHost x:Name="ViewHost" />
 </MahApps:MetroWindow>

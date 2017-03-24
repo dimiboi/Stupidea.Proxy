@@ -3,26 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
-    <Grid Margin="20">
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <svgc:SvgViewbox x:Name="GoofySvg"
+                         Width="200"
+                         Height="200"
+                         Margin="20,20,20,10"
+                         Source="/Resources/goofy.svg"
+                         Visibility="Hidden" />
+        <svgc:SvgViewbox x:Name="HappySvg"
+                         Width="200"
+                         Height="200"
+                         Margin="20,20,20,10"
+                         Source="/Resources/happy.svg"
+                         Visibility="Hidden" />
         <StackPanel Grid.Row="1"
-                    Margin="5"
+                    Margin="20,10,20,20"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
             <Button x:Name="StartButton"
-                    Width="82"
-                    Margin="5">
+                    Width="100"
+                    Margin="10,10,5,10">
                 Start
             </Button>
             <Button x:Name="StopButton"
-                    Width="82"
-                    Margin="5">
+                    Width="100"
+                    Margin="5,10,10,10">
                 Stop
             </Button>
         </StackPanel>
