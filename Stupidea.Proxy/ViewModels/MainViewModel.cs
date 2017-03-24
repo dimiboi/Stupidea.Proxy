@@ -31,6 +31,9 @@ namespace Stupidea.Proxy.ViewModels
         {
             // Services
 
+            resolver.RegisterLazySingleton(() => new InteractionService(),
+                                                 typeof(IInteractionService));
+
             resolver.RegisterLazySingleton(() => new ProxyService(),
                                                  typeof(IProxyService));
             // Screen

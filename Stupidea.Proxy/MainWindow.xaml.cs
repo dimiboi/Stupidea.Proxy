@@ -1,8 +1,13 @@
 ﻿using MahApps.Metro.Controls;
 using ReactiveUI;
+using Splat;
+using Stupidea.Proxy.Services;
 using Stupidea.Proxy.ViewModels;
 using System;
+using System.ComponentModel;
+using System.Reactive;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Windows;
 
 namespace Stupidea.Proxy
@@ -15,9 +20,19 @@ namespace Stupidea.Proxy
                                         typeof(MainWindow),
                                         new PropertyMetadata(null));
 
-        public MainWindow()
+        private readonly IInteractionService interactions;
+
+        public MainWindow() : this(null)
+        {
+        }
+
+        public MainWindow(IInteractionService interactions)
         {
             InitializeComponent();
+
+            ViewModel = new MainViewModel();
+
+            this.interactions = interactions ?? Locator.Current.GetService<IInteractionService>();
 
             IDisposable activation = null;
             activation = this.WhenActivated(disposables =>
@@ -31,13 +46,18 @@ namespace Stupidea.Proxy
                     .DisposeWith(disposables);
 
                 this
+                    .Events()
+                    .Closing
+                    .Subscribe(async e => await this.interactions
+                                                    .WindowClosing.Handle(Unit.Default))
+                    .DisposeWith(disposables);
+
+                this
                     .OneWayBind(ViewModel,
                         vm => vm.Router,
                         v => v.ViewHost.Router)
                     .DisposeWith(disposables);
             });
-
-            ViewModel = new MainViewModel();
         }
 
         public IMainViewModel ViewModel

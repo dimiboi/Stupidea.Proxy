@@ -3,6 +3,7 @@ using Splat;
 using Stupidea.Proxy.Services;
 using System.Reactive;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 
 namespace Stupidea.Proxy.ViewModels
 {
@@ -17,14 +18,17 @@ namespace Stupidea.Proxy.ViewModels
     {
         private readonly IMainViewModel window;
         private readonly IProxyService proxy;
+        private readonly IInteractionService interactions;
 
         private bool isStarted;
 
         public ProxyViewModel(IMainViewModel window = null,
-                              IProxyService proxy = null)
+                              IProxyService proxy = null,
+                              IInteractionService interactions = null)
         {
             this.window = window ?? Locator.Current.GetService<IMainViewModel>();
             this.proxy = proxy ?? Locator.Current.GetService<IProxyService>();
+            this.interactions = interactions ?? Locator.Current.GetService<IInteractionService>();
 
             this.WhenActivated(disposables =>
             {
@@ -43,6 +47,20 @@ namespace Stupidea.Proxy.ViewModels
                 },
                 this.WhenAnyValue(vm => vm.IsStarted))
                 .DisposeWith(disposables);
+
+                this
+                    .interactions
+                    .WindowClosing
+                    .RegisterHandler(async intertaction =>
+                    {
+                        if (await StopCommand.CanExecute.FirstAsync())
+                        {
+                            await StopCommand.Execute(Unit.Default);
+                        }
+
+                        intertaction.SetOutput(Unit.Default);
+                    })
+                    .DisposeWith(disposables);
             });
         }
 
