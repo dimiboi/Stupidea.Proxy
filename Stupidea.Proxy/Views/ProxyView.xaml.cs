@@ -1,21 +1,21 @@
-﻿using MahApps.Metro.Controls;
-using ReactiveUI;
+﻿using ReactiveUI;
 using Stupidea.Proxy.ViewModels;
 using System;
 using System.Reactive.Disposables;
 using System.Windows;
+using System.Windows.Controls;
 
-namespace Stupidea.Proxy
+namespace Stupidea.Proxy.Views
 {
-    public partial class MainWindow : MetroWindow, IViewFor<IMainViewModel>
+    public partial class ProxyView : UserControl, IViewFor<IProxyViewModel>
     {
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel",
-                                        typeof(IMainViewModel),
-                                        typeof(MainWindow),
+                                        typeof(IProxyViewModel),
+                                        typeof(ProxyView),
                                         new PropertyMetadata(null));
 
-        public MainWindow()
+        public ProxyView()
         {
             InitializeComponent();
 
@@ -31,25 +31,29 @@ namespace Stupidea.Proxy
                     .DisposeWith(disposables);
 
                 this
-                    .OneWayBind(ViewModel,
-                        vm => vm.Router,
-                        v => v.ViewHost.Router)
+                    .BindCommand(ViewModel,
+                        vm => vm.StartCommand,
+                        v => v.StartButton)
+                    .DisposeWith(disposables);
+
+                this
+                    .BindCommand(ViewModel,
+                        vm => vm.StopCommand,
+                        v => v.StopButton)
                     .DisposeWith(disposables);
             });
-
-            ViewModel = new MainViewModel();
         }
 
-        public IMainViewModel ViewModel
+        public IProxyViewModel ViewModel
         {
-            get { return (IMainViewModel)GetValue(ViewModelProperty); }
+            get { return (IProxyViewModel)GetValue(ViewModelProperty); }
             set { SetValue(ViewModelProperty, value); }
         }
 
         object IViewFor.ViewModel
         {
             get { return ViewModel; }
-            set { ViewModel = (IMainViewModel)value; }
+            set { ViewModel = (IProxyViewModel)value; }
         }
     }
 }
