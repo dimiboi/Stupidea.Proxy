@@ -1,3 +1,5 @@
+![](icon.png)
+
 # Stupidea.Proxy
 
 Are you happy with your Wikipedia experience?
