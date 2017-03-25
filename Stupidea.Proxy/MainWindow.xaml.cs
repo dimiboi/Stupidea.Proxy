@@ -5,6 +5,7 @@ using Stupidea.Proxy.Services;
 using Stupidea.Proxy.ViewModels;
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -12,6 +13,7 @@ using System.Windows;
 
 namespace Stupidea.Proxy
 {
+    [ExcludeFromCodeCoverage]
     public partial class MainWindow : MetroWindow, IViewFor<IMainViewModel>
     {
         public static readonly DependencyProperty ViewModelProperty =

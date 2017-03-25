@@ -1,6 +1,7 @@
 ﻿using ReactiveUI;
 using Stupidea.Proxy.ViewModels;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Windows;
@@ -8,6 +9,7 @@ using System.Windows.Controls;
 
 namespace Stupidea.Proxy.Views
 {
+    [ExcludeFromCodeCoverage]
     public partial class ProxyView : UserControl, IViewFor<IProxyViewModel>
     {
         public static readonly DependencyProperty ViewModelProperty =

@@ -16,6 +16,8 @@ namespace Stupidea.Proxy.ViewModels
 
     public class ProxyViewModel : ReactiveObject, IProxyViewModel
     {
+        internal const string UrlPathSegmentValue = "proxy";
+
         private readonly IMainViewModel window;
         private readonly IProxyService proxy;
         private readonly IInteractionService interactions;
@@ -55,7 +57,7 @@ namespace Stupidea.Proxy.ViewModels
                     {
                         if (await StopCommand.CanExecute.FirstAsync())
                         {
-                            await StopCommand.Execute(Unit.Default);
+                            await StopCommand.Execute();
                         }
 
                         intertaction.SetOutput(Unit.Default);
@@ -68,7 +70,7 @@ namespace Stupidea.Proxy.ViewModels
 
         public IScreen HostScreen => window;
 
-        public string UrlPathSegment => "proxy";
+        public string UrlPathSegment => UrlPathSegmentValue;
 
         public bool IsStarted
         {
